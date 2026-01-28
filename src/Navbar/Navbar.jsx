@@ -18,7 +18,7 @@ export default function Navbar() {
     if (storedUser) setUser(JSON.parse(storedUser));
   }, []);
 
-  /* ===== CLOSE DROPDOWN ON OUTSIDE CLICK ===== */
+  /* ===== CLOSE USER DROPDOWN ON OUTSIDE CLICK ===== */
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (userRef.current && !userRef.current.contains(e.target)) {
@@ -34,7 +34,14 @@ export default function Navbar() {
     localStorage.removeItem("user");
     setUser(null);
     setUserOpen(false);
+    setMenuOpen(false);
     navigate("/");
+  };
+
+  /* ===== MOBILE NAV HANDLER ===== */
+  const handleMobileNav = (path) => {
+    setMenuOpen(false);
+    if (path) navigate(path);
   };
 
   return (
@@ -81,8 +88,8 @@ export default function Navbar() {
             {userOpen && user && (
               <div className="user-dropdown">
                 <ul>
-                  <li>Dashboard</li>
-                  <li>Profile</li>
+                  <li onClick={() => setUserOpen(false)}>Dashboard</li>
+                  <li onClick={() => setUserOpen(false)}>Profile</li>
                   <li className="logout" onClick={handleLogout}>
                     Logout
                   </li>
@@ -97,15 +104,17 @@ export default function Navbar() {
       {menuOpen && (
         <div className="mobile-menu">
           <ul>
-            <li onClick={() => navigate("/")}>Home</li>
-            <li>Services</li>
-            <li>Projects</li>
-            <li>Pages</li>
-            <li>Blog</li>
-            <li>Contact Us</li>
+            <li onClick={() => handleMobileNav("/")}>Home</li>
+            <li onClick={() => handleMobileNav()}>Services</li>
+            <li onClick={() => handleMobileNav()}>Projects</li>
+            <li onClick={() => handleMobileNav()}>Pages</li>
+            <li onClick={() => handleMobileNav()}>Blog</li>
+            <li onClick={() => handleMobileNav()}>Contact Us</li>
 
             {!user && (
-              <li onClick={() => navigate("/login")}>Login / Register</li>
+              <li onClick={() => handleMobileNav("/login")}>
+                Login / Register
+              </li>
             )}
 
             {user && (
