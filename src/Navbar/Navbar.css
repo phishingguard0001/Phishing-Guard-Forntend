@@ -1,0 +1,173 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ================= NAVBAR ================= */
+.navbar {
+  height: 80px;
+  background: linear-gradient(90deg, #020b1f, #03142f);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 60px;
+  font-family: "Segoe UI", sans-serif;
+  color: #fff;
+  position: relative;
+  z-index: 1000;
+}
+
+/* ================= LOGO ================= */
+.nav-left {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  cursor: pointer;
+}
+
+.logo img {
+  max-height: 65px;
+  width: auto;
+  object-fit: contain;
+}
+
+/* ================= DESKTOP MENU ================= */
+.nav-menu {
+  list-style: none;
+  display: flex;
+  gap: 32px;
+}
+
+.nav-menu li {
+  cursor: pointer;
+  font-size: 15px;
+  color: #cfd6e1;
+  transition: color 0.2s;
+}
+
+.nav-menu li:hover {
+  color: #00e0c6;
+}
+
+/* ================= RIGHT ================= */
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* ================= USER ================= */
+.user-wrapper {
+  position: relative;
+}
+
+.user {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #cfd6e1;
+}
+
+.user:hover {
+  color: #00e0c6;
+}
+
+/* ================= DROPDOWN ================= */
+.user-dropdown {
+  position: absolute;
+  top: 55px;
+  right: 0;
+  background: #0b1c38;
+  border-radius: 6px;
+  min-width: 160px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45);
+}
+
+.user-dropdown ul {
+  list-style: none;
+  padding: 8px 0;
+}
+
+.user-dropdown li {
+  padding: 10px 16px;
+  font-size: 14px;
+  cursor: pointer;
+  color: #cfd6e1;
+}
+
+.user-dropdown li:hover {
+  background: #132a55;
+  color: #00e0c6;
+}
+
+.user-dropdown .logout {
+  color: #ff6b6b;
+}
+
+.user-dropdown .logout:hover {
+  background: #2a1414;
+}
+
+/* ================= HAMBURGER ================= */
+.hamburger {
+  display: none;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+/* ================= MOBILE MENU ================= */
+.mobile-menu {
+  background: #020b1f;
+  padding: 20px;
+}
+
+.mobile-menu ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.mobile-menu li {
+  font-size: 16px;
+  color: #cfd6e1;
+  cursor: pointer;
+}
+
+.mobile-menu li:hover {
+  color: #00e0c6;
+}
+
+.mobile-menu .logout {
+  color: #ff6b6b;
+}
+
+/* ================= RESPONSIVE ================= */
+@media (max-width: 992px) {
+  .nav-menu {
+    display: none;
+  }
+
+  .hamburger {
+    display: block;
+  }
+
+  .navbar {
+    padding: 0 25px;
+  }
+}
+
+@media (max-width: 576px) {
+  .logo img {
+    max-height: 50px;
+  }
+
+  .user span {
+    display: none;
+  }
+}
