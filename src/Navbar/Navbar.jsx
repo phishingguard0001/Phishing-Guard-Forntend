@@ -58,8 +58,6 @@ export default function Navbar() {
         <ul className="nav-menu">
           <li onClick={() => navigate("/")}>Home</li>
           <li>Services</li>
-          <li>Projects</li>
-          <li>Pages</li>
           <li>Blog</li>
           <li>Contact Us</li>
         </ul>
@@ -106,8 +104,6 @@ export default function Navbar() {
           <ul>
             <li onClick={() => handleMobileNav("/")}>Home</li>
             <li onClick={() => handleMobileNav()}>Services</li>
-            <li onClick={() => handleMobileNav()}>Projects</li>
-            <li onClick={() => handleMobileNav()}>Pages</li>
             <li onClick={() => handleMobileNav()}>Blog</li>
             <li onClick={() => handleMobileNav()}>Contact Us</li>
 
