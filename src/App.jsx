@@ -4,12 +4,13 @@ import HomeLayout from "./HomeScreen/HomeLayout";
 import Navbar from "./Navbar/Navbar";
 import Auth from "./Auth/Auth";
 
-import AdminLayout from "./admin/AdminLayout";
-import Dashboard from "./admin/pages/Dashboard";
-import Users from "./admin/pages/Users";
-import Reports from "./admin/pages/Reports";
-import Alerts from "./admin/pages/Alerts";
-import Urls from "./admin/pages/Urls";
+import AdminLayout from "./Admin/AdminLayout";
+import Dashboard from "./Admin/pages/Dashboard";
+import Users from "./Admin/pages/Users";
+import Reports from "./Admin/pages/Reports";
+import Alerts from "./Admin/pages/Alerts";
+import Urls from "./Admin/pages/Urls";
+
 
 export default function App() {
   const location = useLocation();
