@@ -1,0 +1,91 @@
+/* Container */
+.alerts-container {
+  max-width: 600px;
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
+  font-family: "Inter", sans-serif;
+}
+
+/* Heading */
+.alerts-container h2 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #0f172a;
+  margin-bottom: 16px;
+}
+
+/* Labels */
+.alert-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 500;
+  color: #334155;
+  margin-bottom: 6px;
+}
+
+/* Input & textarea */
+.alert-input,
+.alert-textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  font-size: 14px;
+  color: #0f172a;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  margin-bottom: 14px;
+}
+
+/* Focus state */
+.alert-input:focus,
+.alert-textarea:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+/* Textarea */
+.alert-textarea {
+  resize: vertical;
+  min-height: 100px;
+}
+
+/* Button */
+.alert-button {
+  margin-top: 10px;
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: none;
+  background: #2563eb;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s, box-shadow 0.1s;
+}
+
+/* Hover */
+.alert-button:hover {
+  background: #1d4ed8;
+}
+
+/* Active */
+.alert-button:active {
+  transform: translateY(1px);
+}
+
+/* Disabled */
+.alert-button:disabled {
+  background: #94a3b8;
+  cursor: not-allowed;
+}
+
+/* Hint text */
+.alert-hint {
+  font-size: 12px;
+  color: #64748b;
+  margin-top: -8px;
+  margin-bottom: 12px;
+}

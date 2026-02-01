@@ -14,15 +14,19 @@ export default function Auth() {
   };
 
   /* ================= LOGIN ================= */
+  /* ================= LOGIN ================= */
   const handleLogin = async () => {
-    const res = await fetch("https://phishing-guard-6m3y.onrender.com/api/auth/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email: form.email,
-        password: form.password,
-      }),
-    });
+    const res = await fetch(
+      "https://phishing-guard-6m3y.onrender.com/api/auth/login",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: form.email,
+          password: form.password,
+        }),
+      },
+    );
 
     const data = await res.json();
 
@@ -31,26 +35,38 @@ export default function Auth() {
       return;
     }
 
+    // ✅ store auth data
+    localStorage.setItem("token", data.token);
     localStorage.setItem(
       "user",
-      JSON.stringify({ email: form.email, role: data.role }),
+      JSON.stringify({
+        email: form.email,
+        role: data.role,
+      }),
     );
-    localStorage.setItem("token", data.token);
 
-    window.location.href = "/";
+    // ✅ ROLE-BASED REDIRECT
+    if (data.role === "admin") {
+      window.location.href = "/admin/dashboard";
+    } else {
+      window.location.href = "/";
+    }
   };
 
   /* ================= REGISTER ================= */
   const handleRegister = async () => {
-    const res = await fetch("https://phishing-guard-6m3y.onrender.com/api/auth/register", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        name: form.name,
-        email: form.email,
-        password: form.password,
-      }),
-    });
+    const res = await fetch(
+      "https://phishing-guard-6m3y.onrender.com/api/auth/register",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          password: form.password,
+        }),
+      },
+    );
 
     const data = await res.json();
 

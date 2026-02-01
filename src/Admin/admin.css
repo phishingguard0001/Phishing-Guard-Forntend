@@ -1,0 +1,38 @@
+.admin-container {
+  display: flex;
+  height: 100vh;
+  background: #f8fafc;
+}
+
+.admin-sidebar {
+  width: 240px;
+  background: #0f172a;
+  color: white;
+  padding: 20px;
+}
+
+.admin-sidebar .logo {
+  margin-bottom: 30px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.admin-sidebar nav a {
+  display: block;
+  padding: 12px;
+  margin-bottom: 8px;
+  color: #cbd5f5;
+  text-decoration: none;
+  border-radius: 6px;
+}
+
+.admin-sidebar nav a.active,
+.admin-sidebar nav a:hover {
+  background: #1e293b;
+  color: white;
+}
+
+.admin-content {
+  flex: 1;
+  padding: 30px;
+}

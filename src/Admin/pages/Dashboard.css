@@ -1,0 +1,81 @@
+.dashboard-container {
+  padding: 32px;
+  background: #f8fafc;
+  min-height: 100vh;
+  font-family: "Inter", sans-serif;
+}
+
+/* Header card */
+.dashboard-header {
+  background: linear-gradient(135deg, #2563eb, #1e40af);
+  color: #ffffff;
+  padding: 28px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(37, 99, 235, 0.25);
+  margin-bottom: 24px;
+}
+
+/* Title */
+.dashboard-header h1 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+/* Subtitle */
+.dashboard-header p {
+  font-size: 15px;
+  opacity: 0.9;
+}
+
+/* Stats grid */
+.dashboard-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+/* Stat card */
+.stat-card {
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 20px;
+  box-shadow: 0 4px 14px rgba(15, 23, 42, 0.08);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.12);
+}
+
+/* Stat label */
+.stat-title {
+  font-size: 14px;
+  color: #64748b;
+  margin-bottom: 6px;
+}
+
+/* Stat value */
+.stat-value {
+  font-size: 26px;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+/* Accent colors */
+.stat-blue {
+  border-left: 4px solid #2563eb;
+}
+
+.stat-red {
+  border-left: 4px solid #dc2626;
+}
+
+.stat-green {
+  border-left: 4px solid #16a34a;
+}
+
+.stat-yellow {
+  border-left: 4px solid #ca8a04;
+}

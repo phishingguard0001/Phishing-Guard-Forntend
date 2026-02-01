@@ -1,0 +1,41 @@
+.users-page h2 {
+  margin-bottom: 16px;
+  color: #0f172a;
+}
+
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #ffffff;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.users-table th,
+.users-table td {
+  padding: 12px;
+  border-bottom: 1px solid #e2e8f0;
+  text-align: left;
+  font-size: 14px;
+}
+
+.users-table thead {
+  background: #f1f5f9;
+}
+
+.role-badge {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.role-admin {
+  background: #fde68a;
+  color: #92400e;
+}
+
+.role-user {
+  background: #bfdbfe;
+  color: #1e3a8a;
+}
