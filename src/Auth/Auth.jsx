@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Auth.css";
 
 export default function Auth() {
@@ -9,74 +10,94 @@ export default function Auth() {
     password: "",
   });
 
+  const navigate = useNavigate();
+
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   /* ================= LOGIN ================= */
-  /* ================= LOGIN ================= */
   const handleLogin = async () => {
-    const res = await fetch(
-      "https://phishing-guard-6m3y.onrender.com/api/auth/login",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email: form.email,
-          password: form.password,
-        }),
-      },
-    );
-
-    const data = await res.json();
-
-    if (!res.ok) {
-      alert(data.message);
+    if (!form.email || !form.password) {
+      alert("Email and password are required");
       return;
     }
 
-    // ✅ store auth data
-    localStorage.setItem("token", data.token);
-    localStorage.setItem(
-      "user",
-      JSON.stringify({
-        email: form.email,
-        role: data.role,
-      }),
-    );
+    try {
+      const res = await fetch(
+        "https://phishing-guard-6m3y.onrender.com/api/auth/login",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            email: form.email,
+            password: form.password,
+          }),
+        }
+      );
 
-    // ✅ ROLE-BASED REDIRECT
-    if (data.role === "admin") {
-      window.location.href = "/admin/dashboard";
-    } else {
-      window.location.href = "/";
+      const data = await res.json();
+
+      if (!res.ok) {
+        alert(data.message || "Login failed");
+        return;
+      }
+
+      // ✅ Store auth data
+      localStorage.setItem("token", data.token);
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          email: form.email,
+          role: data.role,
+        })
+      );
+
+      // ✅ ROLE-BASED REDIRECT (HashRouter safe)
+      if (data.role === "admin") {
+        navigate("/admin/dashboard");
+      } else {
+        navigate("/");
+      }
+    } catch (err) {
+      alert("Server error. Please try again.");
     }
   };
 
   /* ================= REGISTER ================= */
   const handleRegister = async () => {
-    const res = await fetch(
-      "https://phishing-guard-6m3y.onrender.com/api/auth/register",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: form.name,
-          email: form.email,
-          password: form.password,
-        }),
-      },
-    );
-
-    const data = await res.json();
-
-    if (!res.ok) {
-      alert(data.message);
+    if (!form.name || !form.email || !form.password) {
+      alert("All fields are required");
       return;
     }
 
-    alert("Registration successful. Please login.");
-    setType("login");
+    try {
+      const res = await fetch(
+        "https://phishing-guard-6m3y.onrender.com/api/auth/register",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: form.name,
+            email: form.email,
+            password: form.password,
+          }),
+        }
+      );
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        alert(data.message || "Registration failed");
+        return;
+      }
+
+      alert("Registration successful. Please login.");
+      setType("login");
+      setForm({ name: "", email: "", password: "" });
+    } catch (err) {
+      alert("Server error. Please try again.");
+    }
   };
 
   return (
@@ -89,6 +110,7 @@ export default function Auth() {
             type="text"
             name="name"
             placeholder="Your Name"
+            value={form.name}
             onChange={handleChange}
           />
         )}
@@ -97,6 +119,7 @@ export default function Auth() {
           type="email"
           name="email"
           placeholder="Your Email"
+          value={form.email}
           onChange={handleChange}
         />
 
@@ -104,6 +127,7 @@ export default function Auth() {
           type="password"
           name="password"
           placeholder="Your Password"
+          value={form.password}
           onChange={handleChange}
         />
 
@@ -114,12 +138,14 @@ export default function Auth() {
           {type === "login" ? "Log In Now" : "Register Now"}
         </button>
 
-        <button className="google-btn">
+        <button className="google-btn" disabled>
           <img
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT7hjxMaDl9C1-v2yVRVcwygeFwteVaXf4gug&s"
             alt="google"
           />
-          {type === "login" ? "Log In Now With Google" : "Sign Up With Google"}
+          {type === "login"
+            ? "Log In With Google"
+            : "Sign Up With Google"}
         </button>
 
         <p className="switch-text">
@@ -127,7 +153,9 @@ export default function Auth() {
             ? "Didn't create an account?"
             : "Already have an account?"}
           <span
-            onClick={() => setType(type === "login" ? "register" : "login")}
+            onClick={() =>
+              setType(type === "login" ? "register" : "login")
+            }
           >
             {type === "login" ? " Register now" : " Login now"}
           </span>
