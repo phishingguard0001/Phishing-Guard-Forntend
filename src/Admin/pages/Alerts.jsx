@@ -2,11 +2,16 @@ import { useState } from "react";
 import "./Alerts.css";
 
 export default function Alerts() {
-  const [userId, setUserId] = useState("");
+  const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
   const sendAlert = async () => {
+    if (!email.trim()) {
+      alert("Email is required");
+      return;
+    }
+
     if (!message.trim()) {
       alert("Message is required");
       return;
@@ -15,17 +20,20 @@ export default function Alerts() {
     setLoading(true);
 
     try {
-      const res = await fetch("https://phishing-guard-6m3y.onrender.com/api/admin/alert", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        body: JSON.stringify({
-          userId: userId || null,
-          message,
-        }),
-      });
+      const res = await fetch(
+        "https://phishing-guard-6m3y.onrender.com/api/admin/alert",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+          body: JSON.stringify({
+            email,
+            message,
+          }),
+        }
+      );
 
       const data = await res.json();
 
@@ -35,7 +43,7 @@ export default function Alerts() {
       }
 
       alert("Alert sent successfully");
-      setUserId("");
+      setEmail("");
       setMessage("");
     } catch (err) {
       alert("Server error");
@@ -48,17 +56,14 @@ export default function Alerts() {
     <div className="alerts-container">
       <h2>Send Alert</h2>
 
-      <label className="alert-label">User ID (optional)</label>
+      <label className="alert-label">User Email</label>
       <input
-        type="text"
-        placeholder="Leave blank to broadcast to all users"
-        value={userId}
-        onChange={(e) => setUserId(e.target.value)}
+        type="email"
+        placeholder="Enter user email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
         className="alert-input"
       />
-      <p className="alert-hint">
-        Leave empty to send this alert to all users
-      </p>
 
       <label className="alert-label">Alert Message</label>
       <textarea

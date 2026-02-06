@@ -3,8 +3,6 @@ import "./Urls.css";
 
 export default function Urls() {
   const [urls, setUrls] = useState([]);
-  const [url, setUrl] = useState("");
-  const [domain, setDomain] = useState("");
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -34,65 +32,13 @@ export default function Urls() {
     }
   };
 
-  const addUrl = async () => {
-    if (!url || !domain) {
-      alert("URL and domain are required");
-      return;
-    }
 
-    try {
-      const res = await fetch("http://localhost:8080/api/admin/urls", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        body: JSON.stringify({
-          url,
-          domain,
-          isSuspicious: true,
-        }),
-      });
-
-      const data = await res.json();
-
-      if (!res.ok) {
-        alert(data.message || "Failed to add URL");
-        return;
-      }
-
-      setUrls([data, ...urls]);
-      setUrl("");
-      setDomain("");
-    } catch (err) {
-      alert("Server error");
-    }
-  };
 
   if (loading) return <p className="loading-text">Loading URLs...</p>;
 
   return (
     <div className="urls-container">
       <h2>Suspicious URLs</h2>
-
-      {/* Add URL */}
-      <div className="add-url-card">
-        <input
-          placeholder="URL"
-          value={url}
-          onChange={(e) => setUrl(e.target.value)}
-          className="url-input"
-        />
-        <input
-          placeholder="Domain"
-          value={domain}
-          onChange={(e) => setDomain(e.target.value)}
-          className="url-input"
-        />
-        <button onClick={addUrl} className="add-url-button">
-          Add URL
-        </button>
-      </div>
 
       {/* Table */}
       <div className="urls-table-wrapper">
