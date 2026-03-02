@@ -35,7 +35,7 @@ export default function Dashboard() {
       try {
         // Fetch Stats
         const statsRes = await axios.get(
-          "http://localhost:8080/api/admin/stats",
+          "https://phishing-guard-6m3y.onrender.com/api/admin/stats",
           {
             headers: { Authorization: `Bearer ${token}` },
           }
@@ -45,7 +45,7 @@ export default function Dashboard() {
 
         // Fetch Trend
         const trendRes = await axios.get(
-          "http://localhost:8080/api/admin/reports-per-day",
+          "https://phishing-guard-6m3y.onrender.com/api/admin/reports-per-day",
           {
             headers: { Authorization: `Bearer ${token}` },
           }

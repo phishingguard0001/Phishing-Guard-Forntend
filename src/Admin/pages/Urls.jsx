@@ -11,7 +11,7 @@ export default function Urls() {
 
   const fetchUrls = async () => {
     try {
-      const res = await fetch("https://phishing-guard-forntend.onrender.com/api/admin/urls", {
+      const res = await fetch("https://phishing-guard-6m3y.onrender.com/api/admin/urls", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
