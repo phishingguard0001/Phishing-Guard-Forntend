@@ -11,21 +11,31 @@ export default function Reports() {
 
   const fetchReports = async () => {
     try {
-      const res = await fetch("https://phishing-guard-6m3y.onrender.com/api/report/all", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+      const token = localStorage.getItem("token");
+      console.log("TOKEN:", token); // 👈 debug
+
+      const res = await fetch(
+        "https://phishing-guard-6m3y.onrender.com/api/report/all",
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         },
-      });
+      );
+
+      console.log("STATUS:", res.status); // 👈 debug
 
       const data = await res.json();
+      console.log("DATA:", data); // 👈 debug
 
       if (!res.ok) {
         alert(data.message || "Failed to fetch reports");
         return;
       }
 
-      setReports(data);
+      setReports(data.reports);
     } catch (err) {
+      console.error(err);
       alert("Server error");
     } finally {
       setLoading(false);
