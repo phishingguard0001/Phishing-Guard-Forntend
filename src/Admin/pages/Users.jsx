@@ -11,7 +11,7 @@ export default function Users() {
 
   const fetchUsers = async () => {
     try {
-      const res = await fetch("https://phishing-guard-6m3y.onrender.com/api/user/all", {
+      const res = await fetch("https://phishing-guard-forntend.onrender.com/api/user/all", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },

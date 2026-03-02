@@ -11,17 +11,27 @@ export default function Navbar() {
   const location = useLocation();
 
   useEffect(() => {
-    const storedUser = localStorage.getItem("user");
+    try {
+      const storedUser = localStorage.getItem("user");
 
-    if (storedUser) {
-      const parsedUser = JSON.parse(storedUser);
-      const username = parsedUser.email.split("@")[0];
-      setUser({ ...parsedUser, username });
-    } else {
+      if (storedUser && storedUser !== "undefined") {
+        const parsedUser = JSON.parse(storedUser);
+
+        if (parsedUser?.email) {
+          const username = parsedUser.email.split("@")[0];
+          setUser({ ...parsedUser, username });
+        } else {
+          setUser(null);
+        }
+      } else {
+        setUser(null);
+      }
+    } catch (error) {
+      console.error("Invalid user in localStorage");
+      localStorage.removeItem("user");
       setUser(null);
     }
-  }, [location]); // 👈 this is the fix
-  
+  }, [location]);
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("user");

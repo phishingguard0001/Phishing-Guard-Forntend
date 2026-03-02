@@ -18,7 +18,7 @@ export default function DetectionPage() {
   const fetchHistory = async () => {
     try {
       const res = await axios.get(
-        "https://phishing-guard-6m3y.onrender.com/api/detection/history",
+        "https://phishing-guard-forntend.onrender.com/api/detection/history",
         {
           headers: { Authorization: `Bearer ${token}` },
         },
@@ -48,7 +48,7 @@ export default function DetectionPage() {
 
     try {
       const res = await axios.post(
-        "https://phishing-guard-6m3y.onrender.com/api/detection/analyze",
+        "https://phishing-guard-forntend.onrender.com/api/detection/analyze",
         { input },
         {
           headers: { Authorization: `Bearer ${token}` },
