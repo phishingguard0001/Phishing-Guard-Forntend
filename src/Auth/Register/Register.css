@@ -1,0 +1,127 @@
+.register-wrapper {
+  background: #f5f7fb;
+}
+
+.left-panel {
+  padding: 80px;
+}
+
+.left-panel h1 {
+  font-size: 56px;
+  font-weight: 800;
+}
+
+.left-panel span {
+  color: #1e4ed8;
+}
+
+.left-panel p {
+  margin-top: 20px;
+  color: #555;
+  font-size: 18px;
+}
+
+.feature {
+  display: flex;
+  gap: 15px;
+  margin-top: 25px;
+}
+
+.feature i {
+  font-size: 22px;
+  color: #1e4ed8;
+}
+
+.register-card {
+  background: white;
+  padding: 50px;
+  border-radius: 20px;
+  width: 450px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+}
+
+.register-card h4 {
+  font-weight: 700;
+}
+
+.subtext {
+  color: #777;
+  margin-bottom: 25px;
+}
+
+.input-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: #f3f5f9;
+  border-radius: 12px;
+  padding: 10px 15px;
+  margin-bottom: 20px;
+}
+
+.input-box i {
+  margin-right: 10px;
+  color: #888;
+}
+
+.input-box input {
+  border: none;
+  background: transparent;
+  width: 100%;
+  outline: none;
+}
+
+.eye {
+  cursor: pointer;
+  color: #666;
+}
+
+.strength-bar {
+  height: 6px;
+  background: #ddd;
+  border-radius: 10px;
+  margin-bottom: 5px;
+}
+
+.strength-fill {
+  height: 100%;
+  border-radius: 10px;
+}
+
+.strength-1 { width: 25%; background: red; }
+.strength-2 { width: 50%; background: orange; }
+.strength-3 { width: 75%; background: #1e4ed8; }
+.strength-4 { width: 100%; background: green; }
+
+.strength-text {
+  font-size: 12px;
+  color: #555;
+}
+
+.btn-register {
+  width: 100%;
+  background: #1e4ed8;
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 12px;
+  font-weight: 600;
+  margin-top: 20px;
+  transition: 0.3s;
+}
+
+.btn-register:hover {
+  background: #163bb5;
+}
+
+.encryption-text {
+  text-align: center;
+  margin-top: 20px;
+  font-size: 13px;
+  color: #666;
+}
+
+.role-select {
+  border-radius: 12px;
+  margin-bottom: 20px;
+}

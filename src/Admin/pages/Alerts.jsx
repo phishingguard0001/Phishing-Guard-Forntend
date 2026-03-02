@@ -21,7 +21,7 @@ export default function Alerts() {
 
     try {
       const res = await fetch(
-        "https://phishing-guard-6m3y.onrender.com/api/admin/alert",
+        "http://localhost:8080/api/admin/alert",
         {
           method: "POST",
           headers: {

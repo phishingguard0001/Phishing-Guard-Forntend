@@ -4,11 +4,12 @@ import "./admin.css";
 
 export default function AdminLayout() {
   return (
-    <div className="admin-container">
+    <div className="admin-wrapper">
       <AdminSidebar />
-      <div className="admin-content">
+      
+      <main className="admin-main">
         <Outlet />
-      </div>
+      </main>
     </div>
   );
 }

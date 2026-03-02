@@ -1,126 +1,138 @@
-import { useState, useRef, useEffect } from "react";
 import "./Navbar.css";
-import logo from "./../assets/phishing_logo.png";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import Logo from "./../assets/phishing_logo.png";
+import { useLocation } from "react-router-dom";
 
 export default function Navbar() {
   const navigate = useNavigate();
-
   const [user, setUser] = useState(null);
-  const [userOpen, setUserOpen] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(false); // 👈 control collapse
+  const location = useLocation();
 
-  const userRef = useRef(null);
-
-  /* ===== LOAD USER ===== */
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
-    if (storedUser) setUser(JSON.parse(storedUser));
-  }, []);
 
-  /* ===== CLOSE USER DROPDOWN ON OUTSIDE CLICK ===== */
-  useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (userRef.current && !userRef.current.contains(e.target)) {
-        setUserOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
-
-  /* ===== LOGOUT ===== */
+    if (storedUser) {
+      const parsedUser = JSON.parse(storedUser);
+      const username = parsedUser.email.split("@")[0];
+      setUser({ ...parsedUser, username });
+    } else {
+      setUser(null);
+    }
+  }, [location]); // 👈 this is the fix
+  
   const handleLogout = () => {
+    localStorage.removeItem("token");
     localStorage.removeItem("user");
     setUser(null);
-    setUserOpen(false);
-    setMenuOpen(false);
     navigate("/");
+    setIsOpen(false); // close on logout
   };
 
-  /* ===== MOBILE NAV HANDLER ===== */
-  const handleMobileNav = (path) => {
-    setMenuOpen(false);
-    if (path) navigate(path);
+  const closeNavbar = () => {
+    setIsOpen(false);
   };
 
   return (
-    <>
-      <nav className="navbar">
-        {/* LEFT */}
-        <div className="nav-left">
-          <div className="logo" onClick={() => navigate("/")}>
-            <img src={logo} alt="logo" />
-          </div>
-        </div>
+    <nav className="navbar navbar-expand-lg custom-navbar">
+      <div className="container">
+        {/* Logo */}
+        <NavLink
+          className="navbar-brand brand-logo"
+          to="/"
+          onClick={closeNavbar}
+        >
+          <img src={Logo} alt="PhishGuard Logo" className="logo-img" />
+        </NavLink>
 
-        {/* CENTER MENU (DESKTOP) */}
-        <ul className="nav-menu">
-          <li onClick={() => navigate("/")}>Home</li>
-          <li>Services</li>
-          <li>Blog</li>
-          <li>Contact Us</li>
-        </ul>
+        {/* Toggle Button */}
+        <button
+          className="navbar-toggler"
+          type="button"
+          onClick={() => setIsOpen(!isOpen)}
+        >
+          <span className="navbar-toggler-icon"></span>
+        </button>
 
-        {/* RIGHT */}
-        <div className="navbar-right">
-          {/* HAMBURGER (MOBILE) */}
-          <i
-            className="fa-solid fa-bars hamburger"
-            onClick={() => setMenuOpen(!menuOpen)}
-          />
+        {/* Collapse */}
+        <div className={`collapse navbar-collapse ${isOpen ? "show" : ""}`}>
+          <ul className="navbar-nav mx-auto">
+            <li className="nav-item">
+              <NavLink to="/" className="nav-link" onClick={closeNavbar}>
+                Features
+              </NavLink>
+            </li>
 
-          {/* USER */}
-          <div className="user-wrapper" ref={userRef}>
-            <div
-              className="user"
-              onClick={() => {
-                if (!user) navigate("/login");
-                else setUserOpen((prev) => !prev);
-              }}
-            >
-              <i className="fa-regular fa-user"></i>
-              <span>{user ? user.email : "Account"} ▾</span>
-            </div>
+            <li className="nav-item">
+              <NavLink
+                to="/detection"
+                className="nav-link"
+                onClick={closeNavbar}
+              >
+                Detect
+              </NavLink>
+            </li>
 
-            {userOpen && user && (
-              <div className="user-dropdown">
-                <ul>
-                  <li onClick={() => setUserOpen(false)}>Dashboard</li>
-                  <li onClick={() => setUserOpen(false)}>Profile</li>
-                  <li className="logout" onClick={handleLogout}>
-                    Logout
+            <li className="nav-item">
+              <NavLink to="/pricing" className="nav-link" onClick={closeNavbar}>
+                Pricing
+              </NavLink>
+            </li>
+          </ul>
+
+          <div className="d-flex flex-column flex-lg-row gap-2">
+            {!user ? (
+              <>
+                <NavLink
+                  to="/login"
+                  className="btn btn-outline-primary"
+                  onClick={closeNavbar}
+                >
+                  Login
+                </NavLink>
+
+                <NavLink
+                  to="/register"
+                  className="btn btn-primary"
+                  onClick={closeNavbar}
+                >
+                  Signup
+                </NavLink>
+              </>
+            ) : (
+              <div className="dropdown">
+                <button
+                  className="btn profile-btn dropdown-toggle"
+                  data-bs-toggle="dropdown"
+                >
+                  {user.username}
+                </button>
+
+                <ul className="dropdown-menu dropdown-menu-end">
+                  <li>
+                    <NavLink
+                      className="dropdown-item"
+                      to="/profile"
+                      onClick={closeNavbar}
+                    >
+                      My Profile
+                    </NavLink>
+                  </li>
+                  <li>
+                    <button
+                      className="dropdown-item text-danger"
+                      onClick={handleLogout}
+                    >
+                      Logout
+                    </button>
                   </li>
                 </ul>
               </div>
             )}
           </div>
         </div>
-      </nav>
-
-      {/* MOBILE MENU */}
-      {menuOpen && (
-        <div className="mobile-menu">
-          <ul>
-            <li onClick={() => handleMobileNav("/")}>Home</li>
-            <li onClick={() => handleMobileNav()}>Services</li>
-            <li onClick={() => handleMobileNav()}>Blog</li>
-            <li onClick={() => handleMobileNav()}>Contact Us</li>
-
-            {!user && (
-              <li onClick={() => handleMobileNav("/login")}>
-                Login / Register
-              </li>
-            )}
-
-            {user && (
-              <li className="logout" onClick={handleLogout}>
-                Logout
-              </li>
-            )}
-          </ul>
-        </div>
-      )}
-    </>
+      </div>
+    </nav>
   );
 }

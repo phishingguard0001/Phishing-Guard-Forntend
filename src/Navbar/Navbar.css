@@ -1,173 +1,152 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+/* ================= NAVBAR BASE ================= */
+
+.custom-navbar {
+  background-color: #ffffff;
+  border-bottom: 1px solid #f0f0f0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  padding: 10px 0;
+  transition: all 0.3s ease;
 }
 
-/* ================= NAVBAR ================= */
-.navbar {
-  height: 80px;
-  background: linear-gradient(90deg, #020b1f, #03142f);
+/* Desktop fixed height */
+@media (min-width: 992px) {
+  .custom-navbar {
+    height: 80px;
+    display: flex;
+    align-items: center;
+  }
+}
+
+/* ================= CONTAINER FIX ================= */
+
+.custom-navbar .container {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 60px;
-  font-family: "Segoe UI", sans-serif;
-  color: #fff;
-  position: relative;
-  z-index: 1000;
 }
 
 /* ================= LOGO ================= */
-.nav-left {
+
+.brand-logo {
   display: flex;
   align-items: center;
 }
 
-.logo {
-  cursor: pointer;
-}
-
-.logo img {
-  max-height: 65px;
+.logo-img {
+  height: 50px;
   width: auto;
   object-fit: contain;
+  transition: transform 0.3s ease;
 }
 
-/* ================= DESKTOP MENU ================= */
-.nav-menu {
-  list-style: none;
-  display: flex;
-  gap: 32px;
+.logo-img:hover {
+  transform: scale(1.05);
 }
 
-.nav-menu li {
-  cursor: pointer;
-  font-size: 15px;
-  color: #cfd6e1;
-  transition: color 0.2s;
+/* Slightly bigger logo on desktop */
+@media (min-width: 992px) {
+  .logo-img {
+    height: 60px;
+  }
 }
 
-.nav-menu li:hover {
-  color: #00e0c6;
+/* ================= NAV LINKS ================= */
+
+.nav-link {
+  font-weight: 500;
+  font-size: 16px;
+  color: #555 !important;
+  margin: 0 15px;
+  transition: all 0.3s ease;
 }
 
-/* ================= RIGHT ================= */
-.navbar-right {
-  display: flex;
-  align-items: center;
-  gap: 20px;
+.nav-link:hover {
+  color: #0052cc !important;
 }
 
-/* ================= USER ================= */
-.user-wrapper {
+/* Active Link */
+.active-link {
+  color: #0052cc !important;
+  font-weight: 600;
   position: relative;
 }
 
-.user {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  cursor: pointer;
-  font-size: 14px;
-  color: #cfd6e1;
+.active-link::after {
+  content: "";
+  position: absolute;
+  bottom: -6px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: #0052cc;
 }
 
-.user:hover {
-  color: #00e0c6;
+/* ================= BUTTONS ================= */
+
+.custom-navbar .btn-primary {
+  background-color: #0052cc;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 8px;
+}
+
+.custom-navbar .btn-primary:hover {
+  background-color: #003d99;
+}
+
+.custom-navbar .btn-outline-primary {
+  padding: 8px 18px;
+  border-radius: 8px;
+}
+
+.profile-btn:hover {
+  background: #e2e8f0;
+}
+
+/* ================= MOBILE FIX ================= */
+
+@media (max-width: 991px) {
+
+  /* White background when menu opens */
+  .navbar-collapse {
+    background: #ffffff;
+    padding: 20px;
+    margin-top: 10px;
+    border-radius: 12px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+  }
+
+  .nav-link {
+    margin: 10px 0;
+    text-align: center;
+  }
+
+  .logo-img {
+    height: 45px;
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+}
+
+/* ================= TOGGLER FIX ================= */
+
+.navbar-toggler {
+  border: none;
+}
+
+.navbar-toggler:focus {
+  box-shadow: none;
 }
 
 /* ================= DROPDOWN ================= */
-.user-dropdown {
-  position: absolute;
-  top: 55px;
-  right: 0;
-  background: #0b1c38;
-  border-radius: 6px;
-  min-width: 160px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45);
-}
 
-.user-dropdown ul {
-  list-style: none;
-  padding: 8px 0;
-}
-
-.user-dropdown li {
-  padding: 10px 16px;
-  font-size: 14px;
-  cursor: pointer;
-  color: #cfd6e1;
-}
-
-.user-dropdown li:hover {
-  background: #132a55;
-  color: #00e0c6;
-}
-
-.user-dropdown .logout {
-  color: #ff6b6b;
-}
-
-.user-dropdown .logout:hover {
-  background: #2a1414;
-}
-
-/* ================= HAMBURGER ================= */
-.hamburger {
-  display: none;
-  font-size: 22px;
-  cursor: pointer;
-}
-
-/* ================= MOBILE MENU ================= */
-.mobile-menu {
-  background: #020b1f;
-  padding: 20px;
-}
-
-.mobile-menu ul {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
-.mobile-menu li {
-  font-size: 16px;
-  color: #cfd6e1;
-  cursor: pointer;
-}
-
-.mobile-menu li:hover {
-  color: #00e0c6;
-}
-
-.mobile-menu .logout {
-  color: #ff6b6b;
-}
-
-/* ================= RESPONSIVE ================= */
-@media (max-width: 992px) {
-  .nav-menu {
-    display: none;
-  }
-
-  .hamburger {
-    display: block;
-  }
-
-  .navbar {
-    padding: 0 25px;
-  }
-}
-
-@media (max-width: 576px) {
-  .logo img {
-    max-height: 50px;
-  }
-
-  .user span {
-    display: none;
-  }
+.dropdown-menu {
+  border-radius: 12px;
+  border: none;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
 }

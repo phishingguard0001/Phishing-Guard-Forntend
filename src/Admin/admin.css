@@ -1,38 +1,27 @@
-.admin-container {
+/* Layout Wrapper */
+.admin-wrapper {
   display: flex;
-  height: 100vh;
-  background: #f8fafc;
+  min-height: 100vh;
+  background: #f5f7fb;
 }
 
+/* Sidebar width must match sidebar */
 .admin-sidebar {
-  width: 240px;
-  background: #0f172a;
-  color: white;
-  padding: 20px;
+  width: 260px;
+  flex-shrink: 0;
 }
 
-.admin-sidebar .logo {
-  margin-bottom: 30px;
-  font-size: 20px;
-  font-weight: bold;
-}
-
-.admin-sidebar nav a {
-  display: block;
-  padding: 12px;
-  margin-bottom: 8px;
-  color: #cbd5f5;
-  text-decoration: none;
-  border-radius: 6px;
-}
-
-.admin-sidebar nav a.active,
-.admin-sidebar nav a:hover {
-  background: #1e293b;
-  color: white;
-}
-
-.admin-content {
+/* Main content area */
+.admin-main {
   flex: 1;
   padding: 30px;
+  margin-left: 260px; /* matches sidebar width */
+  transition: all 0.3s ease;
+}
+
+/* Make content responsive */
+@media (max-width: 992px) {
+  .admin-main {
+    margin-left: 0;
+  }
 }
