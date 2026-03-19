@@ -1,85 +1,82 @@
 import { useState } from "react";
 import "./Alerts.css";
+import "../pages/admin-shared.css";
 
 export default function Alerts() {
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
 
   const sendAlert = async () => {
-    if (!email.trim()) {
-      alert("Email is required");
+    if (!email.trim() || !message.trim()) {
+      alert("Email and message are required");
       return;
     }
-
-    if (!message.trim()) {
-      alert("Message is required");
-      return;
-    }
-
     setLoading(true);
-
+    setSuccess(false);
     try {
-      const res = await fetch(
-        "http://localhost:8080/api/admin/alert",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-          body: JSON.stringify({
-            email,
-            message,
-          }),
-        }
-      );
-
+      const res = await fetch("http://localhost:8080/api/admin/alert", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({ email, message }),
+      });
       const data = await res.json();
-
-      if (!res.ok) {
-        alert(data.message || "Failed to send alert");
-        return;
-      }
-
-      alert("Alert sent successfully");
+      if (!res.ok) { alert(data.message || "Failed to send alert"); return; }
+      setSuccess(true);
       setEmail("");
       setMessage("");
-    } catch (err) {
-      alert("Server error");
-    } finally {
-      setLoading(false);
-    }
+    } catch { alert("Server error"); }
+    finally { setLoading(false); }
   };
 
   return (
-    <div className="alerts-container">
-      <h2>Send Alert</h2>
+    <div>
+      <div className="ap-header">
+        <h1>Send Alert</h1>
+        <p>Send a security alert notification directly to a user's email</p>
+      </div>
 
-      <label className="alert-label">User Email</label>
-      <input
-        type="email"
-        placeholder="Enter user email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        className="alert-input"
-      />
+      <div className="alerts-card">
+        {success && (
+          <div className="ap-toast">
+            ✅ Alert sent successfully!
+          </div>
+        )}
 
-      <label className="alert-label">Alert Message</label>
-      <textarea
-        placeholder="Enter alert message"
-        value={message}
-        onChange={(e) => setMessage(e.target.value)}
-        className="alert-textarea"
-      />
+        <div className="alerts-field">
+          <label className="ap-label">Recipient Email</label>
+          <input
+            type="email"
+            placeholder="user@example.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="ap-input"
+          />
+        </div>
 
-      <button
-        onClick={sendAlert}
-        disabled={loading}
-        className="alert-button"
-      >
-        {loading ? "Sending..." : "Send Alert"}
-      </button>
+        <div className="alerts-field">
+          <label className="ap-label">Alert Message</label>
+          <textarea
+            placeholder="Describe the security threat or reason for this alert…"
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            className="ap-textarea"
+            rows={6}
+          />
+        </div>
+
+        <button
+          className="ap-btn ap-btn--primary"
+          onClick={sendAlert}
+          disabled={loading}
+        >
+          {loading ? "Sending…" : "🔔 Send Alert"}
+        </button>
+      </div>
     </div>
   );
 }

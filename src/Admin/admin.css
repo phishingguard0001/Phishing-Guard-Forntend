@@ -1,27 +1,22 @@
-/* Layout Wrapper */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; }
+
 .admin-wrapper {
   display: flex;
-  min-height: 100vh;
-  background: #f5f7fb;
+  height: 100vh;
+  overflow: hidden;
+  background: #0a0c14;
+  font-family: 'Inter', sans-serif;
 }
 
-/* Sidebar width must match sidebar */
-.admin-sidebar {
-  width: 260px;
-  flex-shrink: 0;
-}
-
-/* Main content area */
 .admin-main {
   flex: 1;
-  padding: 30px;
-  margin-left: 260px; /* matches sidebar width */
-  transition: all 0.3s ease;
+  overflow-y: auto;
+  background: #0a0c14;
+  padding: 32px 36px;
 }
 
-/* Make content responsive */
-@media (max-width: 992px) {
-  .admin-main {
-    margin-left: 0;
-  }
+@media (max-width: 768px) {
+  .admin-main { padding: 20px 16px; }
 }

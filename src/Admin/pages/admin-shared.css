@@ -1,0 +1,88 @@
+/* ── SHARED ADMIN PAGE STYLES ────────────── */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; }
+
+/* Page header */
+.ap-header { margin-bottom: 32px; }
+.ap-header h1 { font-size: 28px; font-weight: 800; color: #f8fafc; margin-bottom: 6px; }
+.ap-header p  { font-size: 14px; color: #64748b; }
+
+/* Loading */
+.ap-loading {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  height: 200px; gap: 16px;
+}
+.ap-spinner {
+  width: 44px; height: 44px; border-radius: 50%;
+  border: 3px solid #1e293b; border-top-color: #6366f1;
+  animation: ap-spin 0.8s linear infinite;
+}
+@keyframes ap-spin { to { transform: rotate(360deg); } }
+.ap-loading p { color: #64748b; font-size: 14px; }
+
+/* Cards */
+.ap-card {
+  background: #111827; border: 1px solid #1e293b; border-radius: 16px;
+}
+
+/* Tables */
+.ap-table-wrap { overflow-x: auto; border-radius: 16px; border: 1px solid #1e293b; }
+.ap-table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.ap-table thead tr { background: #0d1117; }
+.ap-table th {
+  padding: 14px 20px; text-align: left; font-size: 11px; font-weight: 700;
+  letter-spacing: 1.5px; color: #475569; border-bottom: 1px solid #1e293b;
+}
+.ap-table td {
+  padding: 14px 20px; color: #94a3b8; border-bottom: 1px solid #0f172a;
+  background: #0d1117;
+}
+.ap-table tbody tr:last-child td { border-bottom: none; }
+.ap-table tbody tr:hover td { background: #111827; }
+.ap-table .no-data {
+  text-align: center; color: #334155; font-size: 14px; padding: 40px;
+}
+
+/* Badges */
+.ap-badge {
+  display: inline-block; padding: 4px 12px; border-radius: 999px;
+  font-size: 11px; font-weight: 700;
+}
+.ap-badge--high    { background: rgba(239,68,68,0.15);  color: #f87171; }
+.ap-badge--medium  { background: rgba(245,158,11,0.15); color: #fbbf24; }
+.ap-badge--safe    { background: rgba(34,197,94,0.15);  color: #4ade80; }
+.ap-badge--pending { background: rgba(245,158,11,0.15); color: #fbbf24; }
+.ap-badge--resolved{ background: rgba(34,197,94,0.15);  color: #4ade80; }
+.ap-badge--admin   { background: rgba(99,102,241,0.15); color: #a5b4fc; }
+.ap-badge--user    { background: rgba(100,116,139,0.15);color: #94a3b8; }
+
+/* Inputs */
+.ap-label { font-size: 13px; font-weight: 600; color: #64748b; margin-bottom: 8px; display: block; }
+.ap-input, .ap-textarea {
+  width: 100%; background: #0d1117; border: 1px solid #1e293b; border-radius: 10px;
+  color: #f1f5f9; font-size: 14px; font-family: 'Inter', sans-serif;
+  padding: 12px 16px; outline: none; transition: border-color 0.2s;
+}
+.ap-input:focus, .ap-textarea:focus { border-color: rgba(99,102,241,0.5); }
+.ap-input::placeholder, .ap-textarea::placeholder { color: #334155; }
+.ap-textarea { resize: vertical; min-height: 120px; line-height: 1.6; }
+
+/* Buttons */
+.ap-btn {
+  padding: 12px 24px; border: none; border-radius: 10px; font-size: 14px;
+  font-weight: 700; cursor: pointer; transition: all 0.2s;
+}
+.ap-btn--primary {
+  background: linear-gradient(135deg, #6366f1, #8b5cf6); color: white;
+  box-shadow: 0 6px 20px rgba(99,102,241,0.35);
+}
+.ap-btn--primary:hover { transform: translateY(-1px); box-shadow: 0 10px 28px rgba(99,102,241,0.5); }
+.ap-btn--primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* Toast-style success */
+.ap-toast {
+  background: rgba(34,197,94,0.1); border: 1px solid rgba(34,197,94,0.25);
+  border-radius: 10px; padding: 12px 18px; color: #4ade80; font-size: 14px;
+  font-weight: 500; margin-bottom: 20px;
+}

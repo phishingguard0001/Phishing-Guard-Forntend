@@ -1,41 +1,7 @@
-.users-page h2 {
-  margin-bottom: 16px;
-  color: #0f172a;
+.users-avatar {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 32px; height: 32px; border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: white; font-size: 13px; font-weight: 700;
 }
-
-.users-table {
-  width: 100%;
-  border-collapse: collapse;
-  background: #ffffff;
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.users-table th,
-.users-table td {
-  padding: 12px;
-  border-bottom: 1px solid #e2e8f0;
-  text-align: left;
-  font-size: 14px;
-}
-
-.users-table thead {
-  background: #f1f5f9;
-}
-
-.role-badge {
-  padding: 4px 10px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 600;
-}
-
-.role-admin {
-  background: #fde68a;
-  color: #92400e;
-}
-
-.role-user {
-  background: #bfdbfe;
-  color: #1e3a8a;
-}
+.users-id { font-size: 12px; color: #334155; font-family: monospace; }

@@ -1,79 +1,49 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import "./AdminSidebar.css";
+import Logo from "../../assets/phishing_logo.png";
+
+const navItems = [
+  { to: "/admin/dashboard", icon: "📊", label: "Dashboard" },
+  { to: "/admin/users",     icon: "👥", label: "Users" },
+  { to: "/admin/reports",   icon: "🛡️", label: "Reports" },
+  { to: "/admin/alerts",    icon: "🔔", label: "Alerts" },
+  { to: "/admin/urls",      icon: "🔗", label: "Suspicious URLs" },
+];
 
 export default function AdminSidebar() {
+  const navigate = useNavigate();
   return (
-    <div className="admin-sidebar d-flex flex-column">
-
-      {/* Logo Section */}
-      <div className="admin-logo text-center">
-        <h4 className="mb-0">PhishGuard</h4>
-        <small className="text-muted">Admin Panel</small>
+    <aside className="as-sidebar">
+      {/* Brand */}
+      <div className="as-brand" onClick={() => navigate("/")}>
+        <img src={Logo} alt="PhishGuard" className="as-logo" />
+        <div>
+          <div className="as-brand-name">PhishGuard</div>
+          <div className="as-brand-sub">Admin Panel</div>
+        </div>
       </div>
 
-      {/* Navigation */}
-      <nav className="nav flex-column mt-4">
-
-        <NavLink
-          to="/admin/dashboard"
-          className={({ isActive }) =>
-            isActive ? "nav-link admin-link active-admin" : "nav-link admin-link"
-          }
-        >
-          <i className="fa-solid fa-chart-line me-2"></i>
-          Dashboard
-        </NavLink>
-
-        <NavLink
-          to="/admin/users"
-          className={({ isActive }) =>
-            isActive ? "nav-link admin-link active-admin" : "nav-link admin-link"
-          }
-        >
-          <i className="fa-solid fa-users me-2"></i>
-          Users
-        </NavLink>
-
-        <NavLink
-          to="/admin/reports"
-          className={({ isActive }) =>
-            isActive ? "nav-link admin-link active-admin" : "nav-link admin-link"
-          }
-        >
-          <i className="fa-solid fa-file-shield me-2"></i>
-          Reports
-        </NavLink>
-
-        <NavLink
-          to="/admin/alerts"
-          className={({ isActive }) =>
-            isActive ? "nav-link admin-link active-admin" : "nav-link admin-link"
-          }
-        >
-          <i className="fa-solid fa-bell me-2"></i>
-          Alerts
-        </NavLink>
-
-        <NavLink
-          to="/admin/urls"
-          className={({ isActive }) =>
-            isActive ? "nav-link admin-link active-admin" : "nav-link admin-link"
-          }
-        >
-          <i className="fa-solid fa-link me-2"></i>
-          Suspicious URLs
-        </NavLink>
-
+      {/* Nav */}
+      <nav className="as-nav">
+        <div className="as-nav-label">NAVIGATION</div>
+        {navItems.map((item) => (
+          <NavLink
+            key={item.to}
+            to={item.to}
+            className={({ isActive }) => `as-link${isActive ? " as-link--active" : ""}`}
+          >
+            <span className="as-link-icon">{item.icon}</span>
+            <span>{item.label}</span>
+          </NavLink>
+        ))}
       </nav>
 
-      {/* Bottom Section */}
-      <div className="mt-auto p-3">
-        <NavLink to="/" className="btn btn-outline-light w-100">
-          <i className="fa-solid fa-arrow-left me-2"></i>
-          Back to Website
+      {/* Footer */}
+      <div className="as-footer">
+        <NavLink to="/" className="as-back-btn">
+          ← Back to Website
         </NavLink>
       </div>
-
-    </div>
+    </aside>
   );
 }

@@ -1,55 +1,37 @@
 import { useEffect, useState } from "react";
 import "./Reports.css";
+import "../pages/admin-shared.css";
 
 export default function Reports() {
   const [reports, setReports] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    fetchReports();
-  }, []);
+  useEffect(() => { fetchReports(); }, []);
 
   const fetchReports = async () => {
     try {
       const token = localStorage.getItem("token");
-      console.log("TOKEN:", token); // 👈 debug
-
-      const res = await fetch(
-        "https://phishing-guard-6m3y.onrender.com/api/report/all",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-
-      console.log("STATUS:", res.status); // 👈 debug
-
+      const res = await fetch("http://localhost:8080/api/report/all", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       const data = await res.json();
-      console.log("DATA:", data); // 👈 debug
-
-      if (!res.ok) {
-        alert(data.message || "Failed to fetch reports");
-        return;
-      }
-
+      if (!res.ok) { alert(data.message || "Failed to fetch reports"); return; }
       setReports(data.reports);
-    } catch (err) {
-      console.error(err);
-      alert("Server error");
-    } finally {
-      setLoading(false);
-    }
+    } catch (err) { console.error(err); alert("Server error"); }
+    finally { setLoading(false); }
   };
 
-  if (loading) return <p className="loading-text">Loading reports...</p>;
+  if (loading) return <div className="ap-loading"><div className="ap-spinner" /><p>Loading reports…</p></div>;
 
   return (
-    <div className="reports-container">
-      <h2>Reported URLs</h2>
+    <div>
+      <div className="ap-header">
+        <h1>Reported URLs</h1>
+        <p>{reports.length} report{reports.length !== 1 ? "s" : ""} submitted by users</p>
+      </div>
 
-      <div className="reports-table-wrapper">
-        <table className="reports-table">
+      <div className="ap-table-wrap">
+        <table className="ap-table">
           <thead>
             <tr>
               <th>#</th>
@@ -60,33 +42,22 @@ export default function Reports() {
               <th>Reported At</th>
             </tr>
           </thead>
-
           <tbody>
             {reports.length === 0 ? (
-              <tr>
-                <td colSpan="6" className="no-data">
-                  No reports found
-                </td>
-              </tr>
+              <tr><td colSpan="6" className="no-data">No reports found</td></tr>
             ) : (
-              reports.map((report, index) => (
-                <tr key={report._id}>
-                  <td>{index + 1}</td>
-                  <td>{report.user?.email || "-"}</td>
-                  <td>{report.url}</td>
-                  <td>{report.description || "-"}</td>
+              reports.map((r, i) => (
+                <tr key={r._id}>
+                  <td>{i + 1}</td>
+                  <td>{r.user?.email || "—"}</td>
+                  <td className="reports-url">{r.url}</td>
+                  <td>{r.description || "—"}</td>
                   <td>
-                    <span
-                      className={`status-badge ${
-                        report.status === "pending"
-                          ? "status-pending"
-                          : "status-resolved"
-                      }`}
-                    >
-                      {report.status}
+                    <span className={`ap-badge ap-badge--${r.status === "pending" ? "pending" : "resolved"}`}>
+                      {r.status}
                     </span>
                   </td>
-                  <td>{new Date(report.createdAt).toLocaleString()}</td>
+                  <td>{new Date(r.createdAt).toLocaleString()}</td>
                 </tr>
               ))
             )}

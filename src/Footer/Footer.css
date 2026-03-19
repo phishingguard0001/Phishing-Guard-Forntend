@@ -1,72 +1,132 @@
-.footer-section {
-  background-color: #f5f7f8;
-  padding: 80px 0 40px;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+/* ─── FOOTER BASE ─────────────────────── */
+.ft-footer {
+  background: #0d1117;
+  border-top: 1px solid #1e293b;
+  font-family: 'Inter', sans-serif;
 }
 
-.footer-logo {
-  height: 60px;   /* Bigger logo */
-  width: auto;
+.ft-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px;
 }
 
-.footer-desc {
-  color: #6c757d;
-  font-size: 15px;
+/* ─── TOP ─────────────────────────────── */
+.ft-top { padding: 64px 0 48px; }
+
+.ft-top .ft-inner {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px;
+}
+
+/* ─── BRAND ───────────────────────────── */
+.ft-logo-link { display: inline-block; margin-bottom: 16px; }
+.ft-logo { height: 42px; width: auto; object-fit: contain; }
+
+.ft-tagline {
+  font-size: 14px;
+  color: #64748b;
   line-height: 1.7;
-  max-width: 340px;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
+  max-width: 280px;
 }
 
-.footer-heading {
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  margin-bottom: 20px;
-}
+/* ─── SOCIAL ──────────────────────────── */
+.ft-social { display: flex; gap: 10px; }
 
-.footer-links li {
-  margin-bottom: 12px;
-}
-
-.footer-links a {
+.ft-social-btn {
+  width: 36px; height: 36px;
+  background: #111827;
+  border: 1px solid #1e293b;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #64748b;
   text-decoration: none;
-  color: #6c757d;
+  transition: all 0.2s;
+}
+
+.ft-social-btn:hover {
+  background: rgba(99,102,241,0.12);
+  border-color: rgba(99,102,241,0.3);
+  color: #818cf8;
+}
+
+/* ─── LINK COLUMNS ────────────────────── */
+.ft-col-heading {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: #475569;
+  margin-bottom: 16px;
+}
+
+.ft-col-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ft-link {
   font-size: 14px;
-  transition: 0.3s ease;
+  font-weight: 500;
+  color: #64748b;
+  text-decoration: none;
+  transition: color 0.2s;
 }
 
-.footer-links a:hover {
-  color: #0d6efd;
+.ft-link:hover { color: #cbd5e1; }
+
+/* ─── BOTTOM BAR ──────────────────────── */
+.ft-bottom {
+  border-top: 1px solid #1e293b;
+  padding: 20px 0;
 }
 
-.footer-social i {
-  font-size: 18px;
-  color: #6c757d;
-  cursor: pointer;
-  transition: 0.3s ease;
+.ft-bottom .ft-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.footer-social i:hover {
-  color: #0d6efd;
+.ft-copy { font-size: 13px; color: #475569; }
+
+.ft-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #475569;
 }
 
-.footer-bottom {
-  font-size: 14px;
-  color: #6c757d;
-}
-
-.status-dot {
-  width: 8px;
-  height: 8px;
-  background: #28a745;
+.ft-status-dot {
+  width: 8px; height: 8px;
+  background: #22c55e;
   border-radius: 50%;
-  display: inline-block;
+  animation: ft-pulse 2s ease-in-out infinite;
 }
 
-/* Responsive Fix */
-@media (max-width: 768px) {
-  .footer-bottom {
-    flex-direction: column;
-    gap: 15px;
-    text-align: center;
+@keyframes ft-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+/* ─── RESPONSIVE ──────────────────────── */
+@media (max-width: 900px) {
+  .ft-top .ft-inner {
+    grid-template-columns: 1fr 1fr;
   }
+  .ft-brand { grid-column: 1 / -1; }
+}
+
+@media (max-width: 520px) {
+  .ft-top .ft-inner { grid-template-columns: 1fr; }
+  .ft-bottom .ft-inner { flex-direction: column; gap: 12px; text-align: center; }
 }

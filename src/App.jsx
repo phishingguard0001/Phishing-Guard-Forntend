@@ -15,6 +15,7 @@ import Footer from "./Footer/Footer";
 import HomeScreen from "./HomeScreen/HomeScreen";
 import DetectionPage from "./DetectionPage/DetectionPage";
 import ReportPage from "./ReportPage/ReportPage";
+import PricingPage from "./PricingPage/PricingPage";
 
 export default function App() {
   const location = useLocation();
@@ -32,6 +33,7 @@ export default function App() {
         <Route path="/" element={<HomeScreen/>}/>
         <Route path="/detection" element={<DetectionPage/>}/>
         <Route path="/report" element={<ReportPage/>}/>
+        <Route path="/pricing" element={<PricingPage/>}/>
 
         {/* Admin */}
         <Route path="/admin" element={<AdminLayout />}>

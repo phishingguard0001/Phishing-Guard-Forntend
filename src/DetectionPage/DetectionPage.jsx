@@ -3,7 +3,6 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-
 export default function DetectionPage() {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -14,260 +13,228 @@ export default function DetectionPage() {
 
   const token = localStorage.getItem("token");
 
-  // 🔥 Fetch recent scans
   const fetchHistory = async () => {
     try {
-      const res = await axios.get(
-        "https://phishing-guard-6m3y.onrender.com/api/detection/history",
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        },
-      );
+      const res = await axios.get("http://localhost:8080/api/detection/history", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       setHistory(res.data.slice(0, 5));
     } catch (err) {
       console.error("History fetch error", err);
     }
   };
 
-  useEffect(() => {
-    fetchHistory();
-  }, []);
+  useEffect(() => { fetchHistory(); }, []);
 
   const handleAnalyze = async () => {
     if (!input.trim()) return;
-
     setLoading(true);
     setResult(null);
     setProgress(0);
 
-    let fakeProgress = 0;
+    let fake = 0;
     const interval = setInterval(() => {
-      fakeProgress += 5;
-      if (fakeProgress <= 90) setProgress(fakeProgress);
-    }, 200);
+      fake += 10;
+      if (fake <= 90) setProgress(fake);
+    }, 100);
 
     try {
       const res = await axios.post(
-        "https://phishing-guard-6m3y.onrender.com/api/detection/analyze",
+        "http://localhost:8080/api/detection/analyze",
         { input },
-        {
-          headers: { Authorization: `Bearer ${token}` },
-        },
+        { headers: { Authorization: `Bearer ${token}` } }
       );
-
-      const formattedResult = {
+      clearInterval(interval);
+      setProgress(100);
+      setResult({
         threatLevel: res.data.threatLevel,
         riskScore: res.data.riskScore,
         confidence: res.data.confidence,
         details: res.data.details || [],
-      };
-
-      setTimeout(async () => {
-        clearInterval(interval);
-        setProgress(100);
-        setResult(formattedResult);
-        setLoading(false);
-
-        await fetchHistory(); // 🔥 auto refresh recent scans
-      }, 2000);
-    } catch (err) {
+      });
+      setLoading(false);
+      await fetchHistory();
+    } catch {
       clearInterval(interval);
       setLoading(false);
-      alert("Detection failed");
+      alert("Detection failed. Please try again.");
     }
   };
 
+  const levelColor = (level) => {
+    if (level === "HIGH") return "dp-high";
+    if (level === "MEDIUM") return "dp-medium";
+    return "dp-safe";
+  };
+
+  const levelEmoji = (level) => {
+    if (level === "HIGH") return "⚠";
+    if (level === "MEDIUM") return "⚡";
+    return "✓";
+  };
+
   return (
-    <div className="detect-wrapper container py-5">
-      {/* ================= INPUT SECTION ================= */}
-      {!loading && !result && (
-        <>
-          <div className="detect-hero text-center mb-5">
-            <h1>Phishing Threat Analysis</h1>
-            <p>Securely scan suspicious URLs and emails in seconds.</p>
-          </div>
+    <div className="dp-page">
+      <div className="dp-glow dp-glow-1" />
+      <div className="dp-glow dp-glow-2" />
 
-          <div className="detect-card p-4">
-            <textarea
-              className="form-control detect-input"
-              placeholder="Paste suspicious URL or email content here..."
-              rows="6"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-            />
+      <div className="dp-container">
 
-            <button
-              className="btn btn-primary btn-lg w-100 mt-4"
-              onClick={handleAnalyze}
-            >
-              <i className="fa-solid fa-shield-halved me-2"></i>
-              Analyze for Threats
-            </button>
-          </div>
+        {/* ── INPUT SCREEN ── */}
+        {!loading && !result && (
+          <>
+            {/* Hero */}
+            <div className="dp-hero">
+              <span className="dp-label">AI-POWERED THREAT SCANNER</span>
+              <h1 className="dp-title">
+                Phishing Threat{" "}
+                <span className="dp-title-accent">Analysis</span>
+              </h1>
+              <p className="dp-subtitle">
+                Paste any suspicious URL or email content below. Our AI model
+                will analyze it in seconds and give you a detailed threat report.
+              </p>
+            </div>
 
-          {/* ===== Recent Scans ===== */}
-          <div className="recent-section mt-5">
-            <h6 className="recent-title">RECENT SCANS</h6>
+            {/* Input card */}
+            <div className="dp-card">
+              <div className="dp-card-header">
+                <div className="dp-card-dot" style={{ background: "#ef4444" }} />
+                <div className="dp-card-dot" style={{ background: "#f59e0b" }} />
+                <div className="dp-card-dot" style={{ background: "#22c55e" }} />
+                <span className="dp-card-label">Paste Content to Scan</span>
+              </div>
 
-            {history.length > 0 ? (
-              history.map((item) => (
-                <div key={item._id} className="recent-item">
-                  <div
-                    className={`status-icon ${
-                      item.threatLevel === "HIGH" ? "danger" : "safe"
-                    }`}
-                  >
-                    <i
-                      className={`fa-solid ${
-                        item.threatLevel === "HIGH" ? "fa-xmark" : "fa-check"
-                      }`}
-                    ></i>
-                  </div>
+              <textarea
+                className="dp-textarea"
+                placeholder="Paste suspicious URL or email content here...&#10;&#10;Example:&#10;  https://secure-bank-verify.example/login&#10;  Or paste a full suspicious email body"
+                rows={7}
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+              />
 
-                  <div className="recent-content">
-                    <strong>
-                      {item.input.length > 60
-                        ? item.input.substring(0, 60) + "..."
-                        : item.input}
-                    </strong>
-                    <div className="small text-muted">
-                      {new Date(item.createdAt).toLocaleString()}
+              <button
+                className="dp-btn-scan"
+                onClick={handleAnalyze}
+                disabled={!input.trim()}
+              >
+                <span className="dp-btn-icon">🛡</span>
+                Analyze for Threats
+              </button>
+            </div>
+
+            {/* Recent scans */}
+            {history.length > 0 && (
+              <div className="dp-history">
+                <h6 className="dp-history-label">RECENT SCANS</h6>
+                <div className="dp-history-list">
+                  {history.map((item) => (
+                    <div key={item._id} className="dp-history-item">
+                      <div className={`dp-history-icon ${levelColor(item.threatLevel)}`}>
+                        {levelEmoji(item.threatLevel)}
+                      </div>
+                      <div className="dp-history-content">
+                        <span className="dp-history-text">
+                          {item.input.length > 70
+                            ? item.input.substring(0, 70) + "…"
+                            : item.input}
+                        </span>
+                        <span className="dp-history-date">
+                          {new Date(item.createdAt).toLocaleString()}
+                        </span>
+                      </div>
+                      <span className={`dp-history-badge ${levelColor(item.threatLevel)}`}>
+                        {item.threatLevel}
+                      </span>
                     </div>
-                  </div>
-
-                  <div
-                    className={`risk-badge ${
-                      item.threatLevel === "HIGH" ? "badge-high" : "badge-safe"
-                    }`}
-                  >
-                    {item.threatLevel}
-                  </div>
+                  ))}
                 </div>
-              ))
-            ) : (
-              <p className="text-muted mt-3">No recent scans yet.</p>
+              </div>
             )}
-          </div>
-        </>
-      )}
+          </>
+        )}
 
-      {/* ================= LOADING ================= */}
-      {loading && (
-        <div className="detect-card p-5 text-center">
-          <div className="spinner-circle mb-4"></div>
-          <h4>Analyzing...</h4>
-          <div className="progress mt-4">
-            <div className="progress-bar" style={{ width: `${progress}%` }}>
-              {progress}%
+        {/* ── LOADING SCREEN ── */}
+        {loading && (
+          <div className="dp-loading">
+            <div className="dp-spinner" />
+            <h3 className="dp-loading-title">Analyzing content…</h3>
+            <p className="dp-loading-sub">Our AI model is scanning for threats</p>
+            <div className="dp-progress-bar">
+              <div className="dp-progress-fill" style={{ width: `${progress}%` }} />
             </div>
+            <span className="dp-progress-pct">{progress}%</span>
           </div>
-        </div>
-      )}
+        )}
 
-      {/* ================= RESULT ================= */}
-      {result && !loading && (
-        <div className="result-wrapper">
-          {/* ================= TOP SECTION ================= */}
-          <div className="result-top text-center">
-            <div
-              className={`alert-icon ${
-                result.threatLevel === "HIGH"
-                  ? "alert-high"
-                  : result.threatLevel === "MEDIUM"
-                    ? "alert-medium"
-                    : "alert-safe"
-              }`}
-            >
-              <i
-                className={`fa-solid ${
-                  result.threatLevel === "SAFE" ? "fa-check" : "fa-exclamation"
-                }`}
-              ></i>
+        {/* ── RESULT SCREEN ── */}
+        {result && !loading && (
+          <div className="dp-result">
+
+            {/* Result hero */}
+            <div className="dp-result-hero">
+              <div className={`dp-result-icon ${levelColor(result.threatLevel)}`}>
+                {levelEmoji(result.threatLevel)}
+              </div>
+              <h2 className="dp-result-title">
+                {result.threatLevel === "SAFE" ? "No Threat Detected" : "Phishing Threat Detected"}
+              </h2>
+              <div className={`dp-result-pill ${levelColor(result.threatLevel)}`}>
+                ● THREAT LEVEL: {result.threatLevel}
+              </div>
             </div>
 
-            <h2 className="result-title">
-              {result.threatLevel === "SAFE"
-                ? "No Threat Detected"
-                : "Phishing Threat Detected"}
-            </h2>
-
-            <div
-              className={`threat-pill ${
-                result.threatLevel === "HIGH"
-                  ? "pill-high"
-                  : result.threatLevel === "MEDIUM"
-                    ? "pill-medium"
-                    : "pill-safe"
-              }`}
-            >
-              ● THREAT LEVEL: {result.threatLevel}
-            </div>
-          </div>
-
-          {/* ================= DETAILS CARD ================= */}
-          <div className="result-details mt-5">
-            <h6 className="detail-heading">DETAILED FINDINGS</h6>
-
-            {result.details.length > 0 ? (
-              result.details.map((item, index) => (
-                <div key={index} className="detail-item">
-                  <div className="detail-icon">
-                    <i className="fa-solid fa-triangle-exclamation"></i>
-                  </div>
-                  <div className="detail-text">{item}</div>
+            {/* Metrics row */}
+            <div className="dp-metrics">
+              {[
+                { icon: "🎯", label: "Risk Score", value: `${result.riskScore}/100` },
+                { icon: "🤖", label: "AI Confidence", value: `${result.confidence}%` },
+                { icon: "🕒", label: "Scanned At", value: new Date().toLocaleTimeString() },
+              ].map((m) => (
+                <div className="dp-metric-card" key={m.label}>
+                  <span className="dp-metric-icon">{m.icon}</span>
+                  <span className="dp-metric-value">{m.value}</span>
+                  <span className="dp-metric-label">{m.label}</span>
                 </div>
-              ))
-            ) : (
-              <p className="text-muted">No suspicious indicators detected.</p>
-            )}
-          </div>
-
-          {/* ================= ACTIONS ================= */}
-          <div className="result-actions mt-5 text-center">
-            <button
-              className="btn btn-primary px-5 me-3"
-              onClick={() => {
-                setResult(null);
-                setInput("");
-              }}
-            >
-              Scan Another
-            </button>
-
-            <button className="btn btn-outline-danger px-4" onClick={()=>navigate("/report")}>
-              <i className="fa-solid fa-flag me-2"></i>
-              Report this threat
-            </button>
-          </div>
-
-          {/* ================= INFO CARDS ================= */}
-          <div className="row mt-5">
-            <div className="col-md-4">
-              <div className="info-card">
-                <i className="fa-solid fa-clock"></i>
-                <h6>Detection Time</h6>
-                <p>{new Date().toLocaleString()}</p>
-              </div>
+              ))}
             </div>
 
-            <div className="col-md-4">
-              <div className="info-card">
-                <i className="fa-solid fa-server"></i>
-                <h6>Confidence Score</h6>
-                <p>{result.confidence}% AI Match</p>
-              </div>
+            {/* Findings */}
+            <div className="dp-findings">
+              <h6 className="dp-findings-label">DETAILED FINDINGS</h6>
+              {result.details.length > 0 ? (
+                <div className="dp-findings-list">
+                  {result.details.map((item, idx) => (
+                    <div key={idx} className="dp-finding-item">
+                      <span className="dp-finding-dot" />
+                      <span className="dp-finding-text">{item}</span>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="dp-findings-empty">No suspicious indicators detected.</p>
+              )}
             </div>
 
-            <div className="col-md-4">
-              <div className="info-card">
-                <i className="fa-solid fa-shield-halved"></i>
-                <h6>Risk Score</h6>
-                <p>{result.riskScore}/100</p>
-              </div>
+            {/* Actions */}
+            <div className="dp-actions">
+              <button
+                className="dp-btn-primary"
+                onClick={() => { setResult(null); setInput(""); }}
+              >
+                ← Scan Another
+              </button>
+              <button
+                className="dp-btn-danger"
+                onClick={() => navigate("/report")}
+              >
+                🚩 Report this Threat
+              </button>
             </div>
           </div>
-        </div>
-      )}
+        )}
+
+      </div>
     </div>
   );
 }
