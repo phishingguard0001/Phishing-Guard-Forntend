@@ -1,44 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import "./HomeScreen.css";
 
-const features = [
-  {
-    icon: "🔗",
-    title: "URL Detection",
-    desc: "Instantly analyze suspicious links with AI-powered deep domain behavior analysis and reputation scoring.",
-    color: "#6366f1",
-  },
-  {
-    icon: "📧",
-    title: "Email Scanning",
-    desc: "Detect spoofing, phishing attempts, and social engineering attacks embedded in email content.",
-    color: "#06b6d4",
-  },
-  {
-    icon: "⚡",
-    title: "Real-Time Alerts",
-    desc: "Receive instant threat notifications the moment malicious activity is detected in your environment.",
-    color: "#10b981",
-  },
-  {
-    icon: "📊",
-    title: "Threat Analytics",
-    desc: "Track patterns over time with a full dashboard showing risk scores, history and threat levels.",
-    color: "#f59e0b",
-  },
-  {
-    icon: "🛡️",
-    title: "AI Risk Scoring",
-    desc: "Our trained model gives each input a 0–100 confidence score—HIGH, MEDIUM, or SAFE—in seconds.",
-    color: "#ec4899",
-  },
-  {
-    icon: "🔒",
-    title: "Secure by Default",
-    desc: "All scans run over encrypted channels. Your data is never sold or shared with third parties.",
-    color: "#8b5cf6",
-  },
-];
 
 const stats = [
   { value: "5M+", label: "Threats Blocked" },
@@ -135,23 +97,23 @@ export default function HomeScreen() {
               <div className="hs-scan-card">
                 <div className="hs-scan-header">
                   <div className="hs-scan-dots">
-                    <span style={{ background: "#ef4444" }} />
+                    {/* <span style={{ background: "#ef4444" }} />
                     <span style={{ background: "#f59e0b" }} />
-                    <span style={{ background: "#22c55e" }} />
+                    <span style={{ background: "#22c55e" }} /> */}
                   </div>
                   <span className="hs-scan-title-bar">PhishGuard Threat Scanner</span>
                 </div>
 
                 <div className="hs-scan-body">
                   <div className="hs-scan-input-row">
-                    <span className="hs-scan-lock">🔒</span>
+                    <span className="hs-scan-lock"><i className="fa-solid fa-lock"></i></span>
                     <span className="hs-scan-url">http://secure-bank-login-update.com/verify</span>
                     <span className="hs-scan-tag hs-tag-danger">PHISHING</span>
                   </div>
 
                   <div className="hs-scan-result">
                     <div className="hs-result-header">
-                      <span className="hs-result-icon hs-danger">⚠</span>
+                      <span className="hs-result-icon hs-danger"><i className="fa-solid fa-triangle-exclamation"></i></span>
                       <div>
                         <div className="hs-result-label">Threat Level: HIGH</div>
                         <div className="hs-result-score">Risk Score: 94/100</div>
@@ -183,8 +145,8 @@ export default function HomeScreen() {
               </div>
 
               {/* Floating chips */}
-              <div className="hs-chip hs-chip-1">✅ 2.1M URLs scanned today</div>
-              <div className="hs-chip hs-chip-2">🛡️ 99.9% accuracy</div>
+              <div className="hs-chip hs-chip-1"><i className="fa-solid fa-circle-check" style={{ color: "#22c55e", marginRight: "6px" }}></i> 2.1M URLs scanned today</div>
+              <div className="hs-chip hs-chip-2"><i className="fa-solid fa-shield-halved" style={{ color: "#6366f1", marginRight: "6px" }}></i> 99.9% accuracy</div>
             </div>
 
           </div>
@@ -205,30 +167,6 @@ export default function HomeScreen() {
         </div>
       </section>
 
-      {/* ─── FEATURES ─── */}
-      <section className="hs-features">
-        <div className="container">
-          <div className="hs-section-head">
-            <span className="hs-section-label">CORE CAPABILITIES</span>
-            <h2 className="hs-section-title">Everything you need to stay protected</h2>
-            <p className="hs-section-sub">
-              PhishGuard combines cutting-edge AI with a dead-simple interface so anyone can stay safe.
-            </p>
-          </div>
-
-          <div className="hs-features-grid">
-            {features.map((f) => (
-              <div className="hs-feature-card" key={f.title}>
-                <div className="hs-feature-icon" style={{ background: f.color + "1a", color: f.color }}>
-                  {f.icon}
-                </div>
-                <h3 className="hs-feature-title">{f.title}</h3>
-                <p className="hs-feature-desc">{f.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* ─── HOW IT WORKS ─── */}
       <section className="hs-how">

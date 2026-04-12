@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import Logo from "../../assets/phishing_logo.png";
+import { API_BASE } from "../../config/api";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -11,6 +12,13 @@ export default function Login() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  // If already logged in, redirect to detection
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      navigate("/detection");
+    }
+  }, [navigate]);
+
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const handleSubmit = async (e) => {
@@ -18,11 +26,13 @@ export default function Login() {
     setError("");
     setLoading(true);
     try {
-      const res = await axios.post("http://localhost:8080/api/auth/login", formData);
+      const res = await axios.post(`${API_BASE}/api/auth/login`, formData);
       const { token, user } = res.data;
       localStorage.setItem("token", token);
       localStorage.setItem("user", JSON.stringify(user));
-      navigate(user.role === "admin" ? "/admin/dashboard" : "/");
+      
+      // Navigate to /detection on successful login
+      navigate("/detection");
     } catch (err) {
       setError(err.response?.data?.message || "Invalid credentials");
     } finally {
@@ -45,17 +55,19 @@ export default function Login() {
             <span className="auth-left-accent">phishing threats</span>
           </h2>
           <p className="auth-left-sub">
-            AI-powered detection keeping you and your team safe from malicious links and emails.
+            Advanced AI protection that stops malicious links and phishing attempts before they reach your team.
           </p>
           <div className="auth-features">
             {[
-              { icon: "🛡️", text: "Real-time threat detection" },
-              { icon: "⚡", text: "Instant AI risk scoring" },
-              { icon: "🔒", text: "AES-256 encrypted data" },
-              { icon: "📊", text: "Full threat analytics dashboard" },
+              { icon: "fa-solid fa-shield-halved", text: "Real-time threat detection" },
+              { icon: "fa-solid fa-bolt", text: "Instant AI risk scoring" },
+              { icon: "fa-solid fa-lock", text: "AES-256 encrypted data" },
+              { icon: "fa-solid fa-chart-line", text: "Full threat analytics dashboard" },
             ].map((f) => (
               <div className="auth-feature-item" key={f.text}>
-                <span className="auth-feature-icon">{f.icon}</span>
+                <div className="auth-feature-icon">
+                  <i className={f.icon}></i>
+                </div>
                 <span>{f.text}</span>
               </div>
             ))}
@@ -67,18 +79,22 @@ export default function Login() {
       <div className="auth-right">
         <div className="auth-card">
           <div className="auth-card-header">
-            <div className="auth-card-icon">🔐</div>
+            <div className="auth-card-icon" style={{ color: "var(--primary)" }}>
+              <i className="fa-solid fa-user-shield"></i>
+            </div>
             <h1 className="auth-card-title">Welcome back</h1>
-            <p className="auth-card-sub">Sign in to your security dashboard</p>
+            <p className="auth-card-sub">Access your security dashboard</p>
           </div>
 
-          {error && <div className="auth-error">{error}</div>}
+          {error && <div className="auth-error">
+            <i className="fa-solid fa-triangle-exclamation mr-2"></i> {error}
+          </div>}
 
           <form onSubmit={handleSubmit} className="auth-form">
             <div className="auth-field">
               <label className="auth-label">Email Address</label>
               <div className="auth-input-wrap">
-                <span className="auth-input-icon">✉</span>
+                <i className="fa-solid fa-envelope auth-input-icon"></i>
                 <input
                   type="email"
                   name="email"
@@ -94,10 +110,10 @@ export default function Login() {
             <div className="auth-field">
               <div className="auth-label-row">
                 <label className="auth-label">Password</label>
-                <span className="auth-forgot">Forgot password?</span>
+                <span className="auth-forgot" onClick={() => navigate("/forgot-password")}>Forgot?</span>
               </div>
               <div className="auth-input-wrap">
-                <span className="auth-input-icon">🔑</span>
+                <i className="fa-solid fa-key auth-input-icon"></i>
                 <input
                   type={showPassword ? "text" : "password"}
                   name="password"
@@ -112,26 +128,34 @@ export default function Login() {
                   className="auth-eye"
                   onClick={() => setShowPassword(!showPassword)}
                 >
-                  {showPassword ? "🙈" : "👁"}
+                  <i className={showPassword ? "fa-solid fa-eye-slash" : "fa-solid fa-eye"}></i>
                 </button>
               </div>
             </div>
 
             <button type="submit" className="auth-submit" disabled={loading}>
-              {loading ? "Signing in…" : "Sign In →"}
+              {loading ? (
+                <i className="fa-solid fa-spinner fa-spin"></i>
+              ) : (
+                <>Sign In <i className="fa-solid fa-arrow-right"></i></>
+              )}
             </button>
           </form>
 
-          <div className="auth-divider"><span>or</span></div>
+          <div className="auth-divider"><span>or securely</span></div>
 
           <p className="auth-switch">
-            Don't have an account?{" "}
-            <span onClick={() => navigate("/register")}>Create one free</span>
+            New to PhishGuard?{" "}
+            <span onClick={() => navigate("/register")}>Create Account</span>
           </p>
 
           <div className="auth-trust">
-            <span>🛡 AES-256</span>
-            <span>✓ SOC2 Compliant</span>
+            <div className="auth-trust-item">
+              <i className="fa-solid fa-certificate"></i> SOC2
+            </div>
+            <div className="auth-trust-item">
+              <i className="fa-solid fa-lock"></i> AES-256
+            </div>
           </div>
         </div>
       </div>

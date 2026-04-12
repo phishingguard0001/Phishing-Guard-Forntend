@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./ReportPage.css";
+import { API_BASE } from "../config/api";
 
 export default function ReportPage() {
   const [url, setUrl] = useState("");
@@ -24,7 +25,7 @@ export default function ReportPage() {
       const token = localStorage.getItem("token");
 
       await axios.post(
-        "http://localhost:8080/api/report",
+        `${API_BASE}/api/report`,
         {
           url,
           threatLevel: "MEDIUM",
@@ -54,75 +55,77 @@ export default function ReportPage() {
   };
 
   return (
-    <div className="report-wrapper container py-5">
+    <div className="report-page-container">
+      <div className="report-wrapper container py-5">
 
-      <div className="text-center mb-5">
-        <h1 className="report-title">Report a Phishing Attempt</h1>
-        <p className="report-subtitle">
-          Help us protect the community by reporting suspicious links or emails.
-        </p>
-      </div>
+        <div className="text-center mb-5">
+          <h1 className="report-title">Report a Phishing Attempt</h1>
+          <p className="report-subtitle">
+            Help us protect the community by reporting suspicious links or emails.
+          </p>
+        </div>
 
-      <div className="report-card">
+        <div className="report-card">
 
-        <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit}>
 
-          {/* URL FIELD */}
-          <div className="mb-4">
-            <label className="form-label">
-              Suspected URL or Email Address <span className="text-danger">*</span>
-            </label>
-            <input
-              type="text"
-              className="form-control report-input"
-              placeholder="https://suspicious-site.com or sender@fakebank.com"
-              value={url}
-              onChange={(e) => setUrl(e.target.value)}
-              required
-            />
-            <small className="text-muted">
-              Check for misspelled domains (e.g., amaz0n.com)
-            </small>
-          </div>
+            {/* URL FIELD */}
+            <div className="mb-4">
+              <label className="form-label">
+                Suspected URL or Email Address <span className="text-danger">*</span>
+              </label>
+              <input
+                type="text"
+                className="form-control report-input"
+                placeholder="https://suspicious-site.com or sender@fakebank.com"
+                value={url}
+                onChange={(e) => setUrl(e.target.value)}
+                required
+              />
+              <small className="text-muted">
+                Check for misspelled domains (e.g., amaz0n.com)
+              </small>
+            </div>
 
-          {/* DETAILS */}
-          <div className="mb-4">
-            <label className="form-label">
-              Additional Details (Optional)
-            </label>
-            <textarea
-              className="form-control report-textarea"
-              rows="5"
-              placeholder="Describe why this looks suspicious..."
-              value={details}
-              onChange={(e) => setDetails(e.target.value)}
-            />
-          </div>
+            {/* DETAILS */}
+            <div className="mb-4">
+              <label className="form-label">
+                Additional Details (Optional)
+              </label>
+              <textarea
+                className="form-control report-textarea"
+                rows="5"
+                placeholder="Describe why this looks suspicious..."
+                value={details}
+                onChange={(e) => setDetails(e.target.value)}
+              />
+            </div>
 
-          {/* BUTTONS */}
-          <div className="d-flex gap-3">
-            <button
-              type="submit"
-              className="btn btn-primary px-5"
-              disabled={loading}
-            >
-              {loading ? "Submitting..." : "Submit Report"}
-            </button>
+            {/* BUTTONS */}
+            <div className="d-flex gap-3">
+              <button
+                type="submit"
+                className="btn btn-primary px-5"
+                disabled={loading}
+              >
+                {loading ? "Submitting..." : "Submit Report"}
+              </button>
 
-            <button
-              type="button"
-              className="btn btn-light px-4"
-              onClick={() => {
-                setUrl("");
-                setDetails("");
-              }}
-            >
-              Cancel
-            </button>
-          </div>
+              <button
+                type="button"
+                className="btn btn-light px-4"
+                onClick={() => {
+                  setUrl("");
+                  setDetails("");
+                }}
+              >
+                Cancel
+              </button>
+            </div>
 
-        </form>
+          </form>
 
+        </div>
       </div>
     </div>
   );

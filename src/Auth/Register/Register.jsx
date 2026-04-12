@@ -2,8 +2,8 @@ import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../Login/Login.css";
-import "./Register.css";
 import Logo from "../../assets/phishing_logo.png";
+import { API_BASE } from "../../config/api";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -33,16 +33,19 @@ export default function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError(""); setMessage("");
+    setError("");
+    setMessage("");
     if (password !== confirmPassword) return setError("Passwords do not match");
     setLoading(true);
     try {
-      await axios.post("http://localhost:8080/api/auth/register", { name, email, password, role });
-      setMessage("Account created! You can now sign in.");
+      await axios.post(`${API_BASE}/api/auth/register`, { name, email, password, role });
+      setMessage("Account created! Redirecting to login...");
       setTimeout(() => navigate("/login"), 2000);
     } catch (err) {
       setError(err.response?.data?.message || "Registration failed.");
-    } finally { setLoading(false); }
+    } finally {
+      setLoading(false);
+    }
   };
 
   const strengthLabels = ["Weak", "Fair", "Good", "Strong"];
@@ -59,20 +62,22 @@ export default function Register() {
           </div>
           <h2 className="auth-left-title">
             Secure your<br />
-            <span className="auth-left-accent">workspace today</span>
+            <span className="auth-left-accent">digital workspace</span>
           </h2>
           <p className="auth-left-sub">
-            Join 5,000+ security professionals using AI-powered protection against phishing threats.
+            Join thousands of security-first organizations. Setting up your account takes less than a minute.
           </p>
           <div className="auth-features">
             {[
-              { icon: "🛡️", text: "Advanced threat intelligence" },
-              { icon: "🔒", text: "Zero-trust architecture" },
-              { icon: "📧", text: "Email & URL scanning" },
-              { icon: "📊", text: "Real-time risk analytics" },
+              { icon: "fa-solid fa-bolt", text: "Instant threat intelligence" },
+              { icon: "fa-solid fa-fingerprint", text: "Zero-trust architecture" },
+              { icon: "fa-solid fa-envelope-open-text", text: "Advanced email scanning" },
+              { icon: "fa-solid fa-shield-check", text: "SOC2 compliant protection" },
             ].map((f) => (
               <div className="auth-feature-item" key={f.text}>
-                <span className="auth-feature-icon">{f.icon}</span>
+                <div className="auth-feature-icon">
+                  <i className={f.icon}></i>
+                </div>
                 <span>{f.text}</span>
               </div>
             ))}
@@ -84,28 +89,34 @@ export default function Register() {
       <div className="auth-right">
         <div className="auth-card">
           <div className="auth-card-header">
-            <div className="auth-card-icon">🚀</div>
+            <div className="auth-card-icon" style={{ color: "var(--accent)" }}>
+              <i className="fa-solid fa-rocket"></i>
+            </div>
             <h1 className="auth-card-title">Create account</h1>
-            <p className="auth-card-sub">Start protecting your organization today</p>
+            <p className="auth-card-sub">Start your PhishGuard journey today</p>
           </div>
 
-          {error   && <div className="auth-error">{error}</div>}
-          {message && <div className="auth-success">✅ {message}</div>}
+          {error && <div className="auth-error">
+            <i className="fa-solid fa-triangle-exclamation mr-2"></i> {error}
+          </div>}
+          {message && <div className="auth-success">
+            <i className="fa-solid fa-circle-check mr-2"></i> {message}
+          </div>}
 
           <form onSubmit={handleSubmit} className="auth-form">
             <div className="auth-field">
               <label className="auth-label">Full Name</label>
               <div className="auth-input-wrap">
-                <span className="auth-input-icon">👤</span>
-                <input type="text" name="name" placeholder="Jane Smith" value={name} onChange={handleChange} className="auth-input" required />
+                <i className="fa-solid fa-user auth-input-icon"></i>
+                <input type="text" name="name" placeholder="John Doe" value={name} onChange={handleChange} className="auth-input" required />
               </div>
             </div>
 
             <div className="auth-field">
               <label className="auth-label">Email Address</label>
               <div className="auth-input-wrap">
-                <span className="auth-input-icon">✉</span>
-                <input type="email" name="email" placeholder="name@company.com" value={email} onChange={handleChange} className="auth-input" required />
+                <i className="fa-solid fa-envelope auth-input-icon"></i>
+                <input type="email" name="email" placeholder="john@example.com" value={email} onChange={handleChange} className="auth-input" required />
               </div>
             </div>
 
@@ -113,14 +124,14 @@ export default function Register() {
               <div className="auth-field">
                 <label className="auth-label">Password</label>
                 <div className="auth-input-wrap">
-                  <span className="auth-input-icon">🔑</span>
+                  <i className="fa-solid fa-lock auth-input-icon"></i>
                   <input
                     type={showPassword ? "text" : "password"}
                     name="password" placeholder="••••••••" value={password}
                     onChange={handleChange} className="auth-input" required
                   />
                   <button type="button" className="auth-eye" onClick={() => setShowPassword(!showPassword)}>
-                    {showPassword ? "🙈" : "👁"}
+                    <i className={showPassword ? "fa-solid fa-eye-slash" : "fa-solid fa-eye"}></i>
                   </button>
                 </div>
               </div>
@@ -128,14 +139,14 @@ export default function Register() {
               <div className="auth-field">
                 <label className="auth-label">Confirm</label>
                 <div className="auth-input-wrap">
-                  <span className="auth-input-icon">🔑</span>
+                  <i className="fa-solid fa-lock auth-input-icon"></i>
                   <input
                     type={showConfirm ? "text" : "password"}
                     name="confirmPassword" placeholder="••••••••" value={confirmPassword}
                     onChange={handleChange} className="auth-input" required
                   />
                   <button type="button" className="auth-eye" onClick={() => setShowConfirm(!showConfirm)}>
-                    {showConfirm ? "🙈" : "👁"}
+                    <i className={showConfirm ? "fa-solid fa-eye-slash" : "fa-solid fa-eye"}></i>
                   </button>
                 </div>
               </div>
@@ -147,34 +158,34 @@ export default function Register() {
                   <div className={`auth-strength-fill auth-strength-${strength}`} />
                 </div>
                 <div className="auth-strength-label">
-                  Strength: {strengthLabels[strength - 1] || "—"}
+                  Security Level: <span style={{ fontWeight: 700 }}>{strengthLabels[strength - 1] || "—"}</span>
                 </div>
               </div>
             )}
 
-            <div className="auth-field">
-              <label className="auth-label">Account Role</label>
-              <select name="role" value={role} onChange={handleChange} className="auth-select">
-                <option value="user">User</option>
-                <option value="admin">Admin</option>
-              </select>
-            </div>
-
             <button type="submit" className="auth-submit" disabled={loading}>
-              {loading ? "Creating account…" : "Create Account →"}
+              {loading ? (
+                <i className="fa-solid fa-spinner fa-spin"></i>
+              ) : (
+                <>Get Started <i className="fa-solid fa-arrow-right"></i></>
+              )}
             </button>
           </form>
 
-          <div className="auth-divider"><span>or</span></div>
+          <div className="auth-divider"><span>or quickly</span></div>
 
           <p className="auth-switch">
             Already have an account?{" "}
-            <span onClick={() => navigate("/login")}>Sign in</span>
+            <span onClick={() => navigate("/login")}>Sign In</span>
           </p>
 
           <div className="auth-trust">
-            <span>🛡 AES-256</span>
-            <span>✓ SOC2 Compliant</span>
+            <div className="auth-trust-item">
+              <i className="fa-solid fa-shield-heart"></i> Secure
+            </div>
+            <div className="auth-trust-item">
+              <i className="fa-solid fa-user-secret"></i> Private
+            </div>
           </div>
         </div>
       </div>

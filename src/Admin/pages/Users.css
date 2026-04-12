@@ -5,3 +5,53 @@
   color: white; font-size: 13px; font-weight: 700;
 }
 .users-id { font-size: 12px; color: #334155; font-family: monospace; }
+
+/* Actions */
+.users-actions { display: flex; gap: 8px; }
+.u-btn {
+  padding: 6px 12px; border: none; border-radius: 6px;
+  font-size: 11px; font-weight: 700; cursor: pointer;
+  transition: all 0.2s; text-transform: uppercase;
+}
+.u-btn--edit { background: rgba(99,102,241,0.1); color: #818cf8; }
+.u-btn--edit:hover { background: #6366f1; color: white; }
+.u-btn--delete { background: rgba(239,68,68,0.1); color: #f87171; }
+.u-btn--delete:hover { background: #ef4444; color: white; }
+
+/* Modal Styles */
+.modal-overlay {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(4px);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 1000; padding: 20px;
+}
+.modal-content {
+  background: #111827; border: 1px solid #1e293b; border-radius: 16px;
+  width: 100%; max-width: 450px; overflow: hidden;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+  animation: modal-fade 0.3s ease-out;
+}
+@keyframes modal-fade {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.modal-header {
+  padding: 20px 24px; border-bottom: 1px solid #1e293b;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.modal-header h2 { font-size: 18px; font-weight: 700; color: #f1f5f9; margin: 0; }
+.modal-close {
+  background: none; border: none; font-size: 24px; color: #64748b;
+  cursor: pointer; padding: 0; line-height: 1; transition: color 0.2s;
+}
+.modal-close:hover { color: #f1f5f9; }
+
+.modal-form { padding: 24px; }
+.ap-field { margin-bottom: 20px; }
+.ap-field:last-child { margin-bottom: 0; }
+
+.modal-footer {
+  padding: 24px; background: #0d1117; border-top: 1px solid #1e293b;
+  display: flex; justify-content: flex-end; gap: 12px;
+}
+.modal-footer .ap-btn { padding: 10px 20px; }

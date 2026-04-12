@@ -6,8 +6,16 @@
   color: #818cf8;
 }
 
-.url-badge-click { cursor: pointer; }
-.url-badge-click:hover { opacity: 0.8; }
+.clickable-row { 
+  cursor: pointer; 
+  transition: background-color 0.2s;
+}
+.clickable-row:hover td { 
+  background: #111827 !important; 
+}
+.clickable-row:hover .url-cell {
+  color: #a5b4fc;
+}
 
 .url-details-row td { background: #0a0f1a !important; padding: 0 !important; border-bottom: 1px solid #1e293b; }
 

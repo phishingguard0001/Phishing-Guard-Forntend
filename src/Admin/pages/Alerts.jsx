@@ -1,6 +1,7 @@
 import { useState } from "react";
 import "./Alerts.css";
 import "../pages/admin-shared.css";
+import { API_BASE } from "../../config/api";
 
 export default function Alerts() {
   const [email, setEmail] = useState("");
@@ -16,7 +17,7 @@ export default function Alerts() {
     setLoading(true);
     setSuccess(false);
     try {
-      const res = await fetch("http://localhost:8080/api/admin/alert", {
+      const res = await fetch(`${API_BASE}/api/admin/alert`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

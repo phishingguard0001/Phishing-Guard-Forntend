@@ -1,0 +1,17 @@
+{
+  "appId": "com.phishingguard.app",
+  "appName": "PhishingGuard",
+  "webDir": "dist",
+  "plugins": {
+    "StatusBar": {
+      "overlaysWebView": false,
+      "style": "DARK"
+    },
+    "CapacitorHttp": {
+      "enabled": true
+    }
+  },
+  "server": {
+    "cleartext": true
+  }
+}
